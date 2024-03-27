@@ -88,7 +88,7 @@ echo 这个 option 对应的 解释 是 help = 的内容
 
 ## 2.3 type
 arser.add_argument("square", help="display a square of a given number", type=int)  
-规定 这个 arguemnt 的输入被视为 整数
+规定 这个 argument 的输入被视为 整数
 
 ## 2.4 choices
 我们可以通过限制 --verbosity 选项可以接受的值
