@@ -23,6 +23,8 @@ Insbesondere kommt es dadurch nicht zu Versionskonflikten, wenn ein Projekt auf 
 
 Die Standardbibliothek enthaelt ab Python 3.3 ein venv-Modul, das automatisiertes Erzeugen von virtuellen Umgebungen ermoeglicht. Virtuelle Umgebungen werden fuer ueblich lokal in einem Unterordner des Projekts angelegt und tragen den Namen venv oder .venv .
 
+https://www.cnblogs.com/smilecindy/p/14012122.html
+https://blog.csdn.net/gaoqing_dream163/article/details/109219452
 
 ## 1.1 使用方法
 
@@ -38,7 +40,67 @@ packages
 
 ```
 
+### 1.1.1 创建虚拟环境
 
+1 通过 pycharm 创建新的虚拟环境
+https://blog.csdn.net/gaoqing_dream163/article/details/109219452
+
+2 通过 virtualenv  命令 创建 新的虚拟环境 
+https://www.cnblogs.com/smilecindy/p/14012122.html
+
+ 步骤三：虚拟环境安装好之后需要激活才能使用，激活环境需要在该环境的绝对路径（必须是Scripts目录）下激活，使用activate命令
+ 跳转到虚拟环境下的Scripts目录，使用activate命令进行激活
+ ![](images/2114399-20201120172815925-901246087.png)
+
+### 1.1.2 项目在虚拟环境中的使用
+
+**步骤一：检查项目是否已存在requirement.txt文件**
+
+ 如果没有，则使用命令：pip freeze > requirements.txt进行生成requirements.txt文件
+
+注意：pip的freeze命令用于生成将当前项目的pip类库列表生成 requirements.txt 文件。
+
+---
+
+ **步骤二：跳转到需要使用虚拟环境的目录下（注意是在虚拟环境状态下跳转）**
+ **![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121150336933-728759623.png)**
+
+---
+
+**步骤三：根据requirements.txt文件安装项目需要的所有模块，使用命令： pip  install -r requirements.txt**
+ ![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121150607214-2105077125.png)
+
+ 安装完成之后，使用 pip  list查看是否所有的第三方包均安装成功即可。
+
+### 1.1.3 pycharm中项目如何加载虚拟环境
+
+
+ **步骤一：打开pycharm并打开需要加载虚拟环境的项目，然后依次点击左上方的file->Settings，如下图所示：**
+
+ ![](images/2114399-20201120172815925-901246087%201.png)
+
+
+ **步骤二：Project->Project Interpreter，project  Interpreter默认选择的是本地的python环境以及对应的第三方包，如下图所示：**
+ ![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121152743114-1060548373.png)
+
+---
+
+ **步骤三：添加虚拟环境**
+
+ 1）点击右上方的设置按钮，然后点击Add，如下图所示：
+
+![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121152945893-1429911241.png)
+
+2）在弹出的Add Python Interpreter页面中，依次选择Virtualenv Environment（虚拟环境）->Existing environment，如下图所示：
+
+![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121153324041-1322197355.png)
+
+---
+
+ **第四步：选择虚拟环境运行于项目：Project->Project Interpreter，project  Interpreter选择新添加的虚拟机环境并点击【ok】即可，如下图：**
+![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121153422932-1629832302.png)
+
+![](https://img2020.cnblogs.com/blog/2114399/202011/2114399-20201121153539363-709672495.png)
 
 # 2 Poetry 
 
