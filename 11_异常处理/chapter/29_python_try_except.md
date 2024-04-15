@@ -1,9 +1,333 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
-# 1 异常
+
+# 1 异常处理
+
+
+• instances of Exception (or any subtype)
+• "raise" explicitly raises exception
+• propagate "along the stack of function calls"
+    – terminating functions along the way, until they're caught
+    – Uncaught exceptions terminate the program
+    – Statement try/except may catch exceptions
+
+#### 1.1.1.1 基本格式
+
+```python
+try:
+    pass
+except Exception as e:
+    pass
+```
+
+```python
+try:
+    v = []
+    v[11111] # IndexError
+except ValueError as e:
+    pass
+except IndexError as e:
+    pass
+except Exception as e:
+    print(e) # e是Exception类的对象，中有一个错误信息。
+```
+
+```python
+try:
+    int('asdf')
+except Exception as e:
+    print(e) # e是Exception类的对象，中有一个错误信息。
+finally:
+    print('最后无论对错都会执行')
+    
+# #################### 特殊情况 #########################
+def func():
+    try:
+        # v = 1
+        # return 123
+        int('asdf')
+    except Exception as e:
+        print(e) # e是Exception类的对象，中有一个错误信息。
+        return 123
+    finally:
+        print('最后')
+
+func()
+```
+
+#### 1.1.1.2 主动触发异常
+
+```python
+try:
+    int('123')
+    raise Exception('阿萨大大是阿斯蒂') # 代码中主动抛出异常
+except Exception as e:
+    print(e)
+```
+
+```python
+def func():
+    result = True
+    try:
+        with open('x.log',mode='r',encoding='utf-8') as f:
+            data = f.read()
+        if 'alex' not in data:
+            raise Exception()
+    except Exception as e:
+        result = False
+    return result
+```
+
+#### 1.1.1.3 自定义异常
+
+```python
+class MyException(Exception):
+    pass
+
+try:
+    raise MyException('asdf')
+except MyException as e:
+    print(e)
+```
+
+```python
+class MyException(Exception):
+    def __init__(self,message):
+        super().__init__()
+        self.message = message
+
+try:
+    raise MyException('asdf')
+except MyException as e:
+    print(e.message)
+```
+
+### 1.1.2 约束和反射
+
+- #### 约束（抽象类/接口类）
+
+  - 给子类一个规范，让子类必须按照抽象类的规范来实现方法。
+
+```python
+# 约束字类中必须写send方法，如果不写，则调用时候就报抛出 NotImplementedError 
+class Interface(object):
+    def send(self):
+        raise NotImplementedError()
+        
+class Message(Interface):
+    def send(self):
+        print('发送短信')z
+        
+class Email(Interface):
+    def send(self):
+        print('发送邮件')
+```
+
+```python
+class Message(object):
+    
+    def msg(self):
+        print('发短信')
+
+	def email(self):
+        print('邮件')
+        
+    def wechat(self):
+        print('微信')
+
+obj = Message()
+obj.msg()
+obj.email()
+obj.wechat()
+```
+
+```python
+class BaseMessage(object):
+    def send(self,a1):
+        raise NotImplementedError('字类中必须有send方法')
+        
+class Msg(BaseMessage):
+    def send(self):
+        pass
+
+class Email(BaseMessage):
+    def send(self):
+        pass
+
+class Wechat(BaseMessage):
+    def send(self):
+        pass
+
+class DingDing(BaseMessage):
+    def send(self):
+        print('钉钉')
+    
+obj = Email()
+obj.send()
+```
+
+- 反射
+
+  - 通过对象来获取实例变量、绑定方法
+  - 通过类来获取类变量、类方法、静态方法
+  - 通过模块名来获取模块中的任意变量（普通变量、函数、类）
+  - 通过本文件来获取本文件中的任意变量
+    - getattr(sys.modules[name],'变量名')
+
+根据字符串的形式去某个对象中 操作 他的成员。
+
+- getattr(对象,"字符串")     根据字符粗的形式去某个对象中 获取 对象的成员。 
+
+```python
+class Foo(object):
+    def __init__(self,name):
+        self.name = name
+obj = Foo('alex')
+
+# 获取变量
+v1 = getattr(obj,'name')
+# 获取方法
+method_name = getattr(obj,'login')
+method_name()
+```
+
+- hasattr(对象,'字符串')   根据字符粗的形式去某个对象中判断是否有该成员。 
+
+```python
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+from wsgiref.simple_server import make_server
+
+class View(object):
+    def login(self):
+        return '登陆'
+
+    def logout(self):
+        return '退出'
+
+    def index(self):
+        return '首页'
+
+
+def func(environ,start_response):
+    start_response("200 OK", [('Content-Type', 'text/plain; charset=utf-8')])
+    #
+    obj = View()
+    # 获取用户输入的URL
+    method_name = environ.get('PATH_INFO').strip('/')
+    if not hasattr(obj,method_name):
+        return ["sdf".encode("utf-8"),]
+    response = getattr(obj,method_name)()
+    return [response.encode("utf-8")  ]
+
+# 作用：写一个网站，用户只要来访问，就自动找到第三个参数并执行。
+server = make_server('192.168.12.87', 8000, func)
+server.serve_forever()
+```
+
+- setattr(对象,'变量','值')   根据字符粗的形式去某个对象中设置成员。 
+
+```python
+class Foo:
+    pass
+
+
+obj = Foo()
+obj.k1 = 999
+setattr(obj,'k1',123) # obj.k1 = 123
+
+print(obj.k1)
+```
+
+- delattr(对象,'变量')   根据字符粗的形式去某个对象中删除成员。
+
+```python
+class Foo:
+    pass
+
+obj = Foo()
+obj.k1 = 999
+delattr(obj,'k1')
+print(obj.k1)
+```
+
+```python
+class Cloud(object):
+
+    def upload(self):
+        pass
+    
+    def download(self):
+        pass
+    
+    def run(self):
+        # up|C:/xxx/xxx.zip
+        # down|xxxx.py
+        value = input('请用户输入要干什么？')
+        action = value.split('|')[0]
+        # 最low的形式
+        if action == 'up':
+            self.upload()
+		elif action == 'down':
+            self.download()
+		else:
+            print('输入错误')
+		
+		# 构造字典 (*)
+		method_dict = {'up':self.upload, 'down':self.download}
+         method = method_dict.get(action)
+		method()
+         
+		# 反射（*）
+         method = getattr(self,action) # upload  # self.upload
+		method()
+```
+
+```python
+class Foo(object):
+    def get(self):
+        pass
+
+obj = Foo()
+# if hasattr(obj,'post'): 
+#     getattr(obj,'post')
+
+v1 = getattr(obj,'get',None) # 推荐
+print(v1)
+```
+
+
+
+python一切皆对象
+
+- py文件
+- 包
+- 类
+- 对象
+
+python一切皆对象，所以以后想要通过字符串的形式操作其内部成员都可以通过反射的机制实现。 
+
+模块：importlib 
+
+```
+importlibimport importlib
+importlib.import_module('模块名')
+os = __import__('os')
+print(os.path.isdir('D:\code\day24\pack'))
+print(os.path.isfile('D:\code\day24\pack'))
+```
+
+根据字符串的形式导入模块。
+
+```python
+模块 = importlib.import_module('utils.redis')
+```
+
+![1556266716326](C:\Users\xiaohui\AppData\Roaming\Typora\typora-user-images\1556266716326.png)
+
+
+
+
+
+# 2 `try_except_模块`
 1.Python中，异常会根据错误自动地被触发，也能由代码主动触发和截获
 
 2.捕捉异常的代码：
@@ -140,3 +464,29 @@ with expression [as var]:
   ![多个with](../imgs/python_29_10.JPG)
 
 
+# 3 例子
+
+
+```python
+lst = [1, 2, 3, 'jj', 0]
+def demo(lst, i):
+    try:
+        x = 1/lst[i]
+    except (IndexError,ZeroDivisionError) :
+        print('1. Exception', i)
+        return None
+    except TypeError as e:
+        print("Error:", e)
+        return None
+    except Exception as e: # any other exception
+        print("Error:", e)
+    else: # no exception occured
+        return x
+    finally:
+        print('always executed')
+        
+for i in range(len(lst)+1):
+demo(lst, i)
+
+
+```

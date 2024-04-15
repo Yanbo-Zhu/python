@@ -19,7 +19,7 @@ Die IVU hostet intern ein eigenes PyPi-Repository (analog zu [https://pypi.org/
 
 Das offizielle Python-Paket-Repository ist "PyPi" ([https://pypi.org/](https://pypi.org/)) und wird von pip als Standardquelle verwendet.
 
-
+• PyPI == Python Package Index, but different quality!
 # 4 PEP
 
 另外的 packet （私人自己开发的 ）
