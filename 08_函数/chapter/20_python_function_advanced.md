@@ -47,12 +47,15 @@
 
 # 2 Lambda
 
+• Small, anonymous functions
+• Restricted to a single expression
+
 3.匿名函数：`lambda`表达式  
 `lambda`表达式创建了一个函数对象，它返回该函数对象而不是将其赋值给一个变量名。  
 创建`lambda`表达式的语法为：
 
 ```
-	labda arg1,arg2,...argN: expression using args
+	lambda arg1,arg2,...argN: expression using args
 ```
 * `lambda`表达式是个表达式而不是语句，它能出现在不允许`def`出现的某些地方，比如参数中
 * `lambda`表达式返回一个值（一个新的函数对象），可以将它手动赋值给一个变量名

@@ -1496,7 +1496,7 @@ obj.func()
 # super().func() 根据self对象所属类的继承关系，按照顺序挨个找func方法并执行(找到第一个就不在找了)
 ```
 
-## 0.4 单例模式（23种设计模式）
+## 0.2 单例模式（23种设计模式）
 
 - 无论实例化多少次，永远用的都是第一次实例化出的对象。
 
@@ -1577,9 +1577,9 @@ print(jd.obj)
 ```
 
 
-## 0.2 异常处理
+## 0.3 异常处理
 
-#### 0.2.1.1 基本格式
+#### 0.3.1.1 基本格式
 
 ```python
 try:
@@ -1623,7 +1623,7 @@ def func():
 func()
 ```
 
-#### 0.2.1.2 主动触发异常
+#### 0.3.1.2 主动触发异常
 
 ```python
 try:
@@ -1646,7 +1646,7 @@ def func():
     return result
 ```
 
-#### 0.2.1.3 自定义异常
+#### 0.3.1.3 自定义异常
 
 ```python
 class MyException(Exception):
@@ -1670,7 +1670,7 @@ except MyException as e:
     print(e.message)
 ```
 
-### 0.2.2 约束和反射
+### 0.3.2 约束和反射
 
 - #### 约束（抽象类/接口类）
 
@@ -1893,7 +1893,7 @@ print(os.path.isfile('D:\code\day24\pack'))
 
 ![1556266716326](C:\Users\xiaohui\AppData\Roaming\Typora\typora-user-images\1556266716326.png)
 
-## 0.3 栈和队列
+## 0.4 栈和队列
 
 - 栈 Stack
   - 后进先出 last in first out
@@ -1909,7 +1909,7 @@ class Queue(object):
 ```
 
 
-## 0.4 日志（模块logging）
+## 0.5 日志（模块logging）
 
 - 基本应用：用于统计日志、用来做故障排除debug、用来记录错误，完成代码优化。
 - 日志处理本质：Logger/FileHandler/Formatter
@@ -2013,13 +2013,13 @@ except Exception as e:
 
   ![1556453832951](C:\Users\xiaohui\AppData\Roaming\Typora\typora-user-images\1556453832951.png)
 
-## 0.5 正则表达式和re模块
+## 0.6 正则表达式和re模块
 
-#### 0.5.1.1 re模块
+#### 0.6.1.1 re模块
 
 - re模块本身只是用来操作正则表达式，但是和正则本身是没有关系的。
 
-#### 0.5.1.2 正则表达式
+#### 0.6.1.2 正则表达式
 
 - 正则表达式是一种规则，匹配字符串的规则。
 - 正则表达式的应用场景：匹配字符串（电话号码、身份证号、ip地址）、表单验证（验证用户输入是否正确、银行卡号）、爬虫（从网页源码中获取一些重要信息）

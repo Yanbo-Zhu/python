@@ -1,8 +1,16 @@
 
 # 1 Venv
-virtual environment,
-
+virtual environment
 Mehr Informationen zu venv: [https://docs.python.org/3/tutorial/venv.html](https://docs.python.org/3/tutorial/venv.html)
+
+
+• Problem1: multiple projects with different required packages
+• Problem2: two applications requiring different version of the
+same library
+• Problem3: no credentials to install at site-packages
+• Problem4: different Python Versions
+->  Create isolated Python environments
+
 
 Python unterstuetzt seit PEP 405 virtuelle Interpreter bzw Umgebungen (virtual environment, kurz: venv).
 
@@ -14,6 +22,22 @@ Abhaengigkeiten von Paketen muessen nicht global im System installiert werden, s
 Insbesondere kommt es dadurch nicht zu Versionskonflikten, wenn ein Projekt auf eine aeltere Paket-Version angewiesen ist.  (适应 venv 能够避免的问题)
 
 Die Standardbibliothek enthaelt ab Python 3.3 ein venv-Modul, das automatisiertes Erzeugen von virtuellen Umgebungen ermoeglicht. Virtuelle Umgebungen werden fuer ueblich lokal in einem Unterordner des Projekts angelegt und tragen den Namen venv oder .venv .
+
+
+## 1.1 使用方法
+
+```
+pip install virtualenv
+virtualenv ve1
+cd ve1
+Scripts/activate.bat
+
+deactivate
+virtualenv --python=C:\Python38\python.exe --nosite-
+packages
+
+```
+
 
 
 # 2 Poetry 

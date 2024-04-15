@@ -123,10 +123,10 @@ proc.wait()
 # 4 Tee
 
 [https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file](https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file)
-![](images/Pasted%20image%2020240326203727.png)
+![](../96_脚本书写/images/Pasted%20image%2020240326203727.png)
 
 [https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file#comment110441870_651718](https://stackoverflow.com/questions/616645/how-to-duplicate-sys-stdout-to-a-log-file#comment110441870_651718)
-![](images/Pasted%20image%2020240326203743.png)
+![](../96_脚本书写/images/Pasted%20image%2020240326203743.png)
 
 
  
@@ -152,10 +152,10 @@ https://stackoverflow.com/questions/14906764/how-to-redirect-stdout-to-both-file
 
 
 Logger 
-![](images/Pasted%20image%2020240326203821.png)
+![](../96_脚本书写/images/Pasted%20image%2020240326203821.png)
 
 unbufferd
-![](images/Pasted%20image%2020240326203833.png)
+![](../96_脚本书写/images/Pasted%20image%2020240326203833.png)
 
 StreamToLogger
 https://stackoverflow.com/a/36296215

@@ -1,9 +1,101 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
-# 迭代器和生成器
+# 1 迭代器_iterator
+
+## 1.1 迭代器
+
+- 迭代器
+
+  - 对某种对象(str/list/tuple/dict/set类创建的对象)-可迭代对象中的元素进行逐一获取，表象：具有`__next__`方法且每次调用都获取可迭代对象中的元素（从前到后一个一个获取）。
+  - 列表转换成迭代器：
+  - v1 = iter([11,22,33])
+  - ``` v1 = [11,22,33,44].__iter__() ```
+  - 迭代器想要获取每个值：反复调用  ```val = v1.__next__() ```
+
+  ```python
+  v1 = [11,22,33,44]
+  
+  # 列表转换成迭代器
+  v2 = iter(v1)
+  result1 = v2.__next__()
+  print(result1)
+  result2 = v2.__next__()
+  print(result2)
+  result3 = v2.__next__()
+  print(result3)
+  result4 = v2.__next__()
+  print(result4)
+  result5 = v2.__next__()
+  print(result5)
+  """
+  # v1 = "alex"
+  # v2 = iter(v1)
+  # while True:
+  #     try:
+  #         val = v2.__next__()
+  #         print(val)
+  #     except Exception as e:
+  #         break
+  ```
+
+  - 直到报错：stoplteration错误，表示迭代完毕。
+  - 如何判别一个对象是否是迭代器：内部是否有`__next__方法` 。
+  - for 循环
+
+  ```python
+  v1 = [11,22,33,44]
+  
+  # 1.内部会将v1转换成迭代器
+  # 2.内部反复执行 迭代器.__next__()
+  # 3.取完不报错
+  for item in v1:
+      print(item)
+  ```
+
+- 可迭代对象
+
+  - 内部具有 `__iter__()` 方法且返回一个迭代器。（*）
+
+  ```python
+  v1 = [11,22,33,44]
+  result = v1.__iter__()
+  ```
+
+  - 可以被for循环
+
+表象：可以被for循环对象就可以成为是可迭代对象：‘x’ [11,2]
+
+```python
+class Foo:
+    pass
+
+obj = Foo()
+```
+
+如何让一个对象编程可迭代对象？
+
+在类中实现`__iter__`方法且返回一个迭代器（生成器）
+
+```python
+class Foo:
+    def __iter__(self):
+        return iter([1,2,3,4])
+
+obj = Foo()
+
+
+class Foo:
+    def __iter__(self):
+        yield 1
+        yield 2
+        yield 3
+
+obj = Foo()
+```
+
+备注：只要能被for循环就去看他内部的iter方法。
+
+
+
+## 1.2 迭代器
 1.可迭代对象：在逻辑上它保存了一个序列，在迭代环境中依次返回序列中的一个元素值。
 >可迭代对象不一定是序列，但是序列一定是可迭代对象
 
@@ -96,7 +188,24 @@
 
 13.通常列表解析执行速度最快，`map()`速度次之，`for`循环速度最慢。前两者以C语言速度执行、后者在Python虚拟机上执行
 
-14.生成器函数：编写为常规的`def`语句，但是用`yield`语句一次返回一个结果。每次使用生成器函数时会继续上一轮的状态。
+
+# 2 生成器_generator_Yield
+
+• functions can use yield instead of return
+• each call returns an iterator
+• end of function raises StopIteration
+
+```
+def enumerate(seq):
+    n = 0
+    for item in seq:
+        yield n, item
+        n += 1
+```
+
+## 2.1 原理
+
+14.生成器函数：编写为常规的`def`语句，但是用`yield`语句一次返回一个结果。==每次使用生成器函数时会继续上一轮的状态。==
 >生成器函数会保存上次执行的状态
 
 定义生成器函数的语法为：
@@ -153,8 +262,7 @@
 20.`yield from`：从`PEP 380`引入的新特性。  
 
 * `yield from`可以将一个大的生成器切分成小生成器：
-
-  ```
+ ```
   def generator(): #该生成器yield数字[0~19]
 	for i in range(10):
 		yield i
@@ -176,9 +284,9 @@
 	for j in generator3():
 		yield j
   ```
+ 
  引入`yield from`之后你可以这么做：
 
-	```
   def generator2():
 	for i in range(10):
 		yield i
@@ -188,16 +296,15 @@
   def generator():
 	yield from generator2()
 	yield from generator3()
-  ```
-
-* `yield from`能实现代理生成器：
-
+ `yield from`能实现代理生成器：
   ```
   def generator():
 	inner_gen=generator2()
 	yield from inner_gen #为了便于说明，这里分两行写
-  gen=generator()
-  ```
+  gen=generator()  
+```
+
+
 	* 对`inner_gen`迭代产生的每个值都直接作为`gen` yield值
 	* 所有`gen.send(val)`发送到`gen`的值`val`都会被直接传递给`inner_gen`。
 	*  `inner_gen`抛出异常：
@@ -212,3 +319,253 @@
 	* `gen`中`yield from`表达式求职结果是`inner_gen`迭代结束时抛出的`StopIteration`异常的第一个参数
 	* `inner_gen`中的`return xxx`语句实际上会抛出一个`StopIteration(xxx)`异常，
 	  所以`inner_gen`中的`return`值会成为`gen`中的`yield from`表达式的返回值。
+
+## 2.2 生成器的例子
+
+生成器推导式
+
+```python
+# def func():
+#     result = []
+#     for i in range(10):
+#         result.append(i)
+#     return result
+# v1 = func()
+v1 = [i for i in range(10)] # 列表推导式，立即循环创建所有元素。
+print(v1)
+
+# def func():
+#     for i in range(10):
+#         yield i
+# v2 = func()
+v2 = (i for i in range(10)) # 生成器推导式，创建了一个生成器，内部循环为执行。
+
+# 面试题：请比较 [i for i in range(10)] 和 (i for i in range(10)) 的区别？
+```
+
+```python
+# 示例一
+# def func():
+#     result = []
+#     for i in range(10):
+#         result.append(i)
+#     return result
+# v1 = func()
+# for item in v1:
+#    print(item)
+
+# 示例二
+# def func():
+#     for i in range(10):
+#         def f():
+#             return i
+#         yield f
+#
+# v1 = func()
+# for item in v1:
+#     print(item())
+
+# 示例三：
+v1 = [i for i in range(10)] # 列表推导式，立即循环创建所有元素。
+v2 = (lambda :i for i in range(10))
+for item in v2:
+    print(item())
+```
+
+
+
+```python
+# 函数
+def func():
+    return 123
+func()
+```
+
+```python
+# 生成器函数（内部是否包含yield）
+def func():
+    print('F1')
+    yield 1
+    print('F2')
+    yield 2
+    print('F3')
+    yield 100
+    print('F4')
+# 函数内部代码不会执行，返回一个 生成器对象 。
+v1 = func()
+# 生成器是可以被for循环，一旦开始循环那么函数内部代码就会开始执行。
+for item in v1:
+    print(item)
+```
+
+```python
+def func():
+    count = 1
+    while True:
+        yield count
+        count += 1
+        
+val = func()
+
+for item in val:
+    print(item)
+```
+
+小结：函数中如果存在yield，那么该函数就是一个生成器函数，调用生成器函数会返回一个生成器，生成器只有被for循环时，生成器函数内部的代码才会执行，每次循环都会获取yield返回的值。
+
+```python
+def func():
+    count = 1
+    while True:
+        yield count
+        count += 1
+        if count == 100:
+            return
+
+val = func()
+for item in val:
+    print(item)
+```
+
+示例：读文件
+
+```python
+def func():
+    """
+    分批去读取文件中的内容，将文件的内容返回给调用者。
+    :return:
+    """
+    cursor = 0
+    while True:
+        f = open('db', 'r', encoding='utf-8')# 通过网络连接上redis
+        # 代指   redis[0:10]
+        f.seek(cursor)
+        data_list =[]
+        for i in range(10):
+            line = f.readline()
+            if not line:
+                return
+            data_list.append(line)
+        cursor = f.tell()
+        f.close()  # 关闭与redis的连接
+
+
+        for row in data_list:
+            yield row
+
+
+for item in func():
+    print(item)
+```
+
+- yeild from关键字【未讲】
+- 生成器推导式【未讲】
+
+## 2.3 小例子
+
+Write a Python generator function called small_words that accepts a list of strings as input and yields those words that are at most 3 letter long.
+
+```
+def small_words(words):
+    for word in words:
+        if len(word) <= 3:
+            yield word
+```
+
+
+```
+word_list = ["apple", "banana", "cat", "dog", "elephant"]
+for small_word in small_words(word_list):
+    print(small_word)
+```
+## 2.4 List Comprehensions
+
+
+### 2.4.1 原理 
+
+List comprehension is a concise way of creating lists in Python. It allows you to generate a new list by applying an expression to each item in an existing iterable (such as a list, tuple, or range) and optionally filtering the items based on a condition.
+
+The basic syntax of a list comprehension is:
+
+`[expression for item in iterable if condition]`
+- `expression` is the expression to evaluate, which will be included in the new list.
+- `item` is a variable representing each item in the iterable.
+- `iterable` is the existing iterable (e.g., list, tuple, range) you want to iterate over.
+- `if condition` is an optional condition that filters the items. Only items for which the condition evaluates to `True` will be included in the new list.
+
+For example:
+python
+`# Generate a list of squares of numbers from 0 to 9 squares = [x**2 for x in range(10)]  # Generate a list of even numbers from 0 to 9 even_numbers = [x for x in range(10) if x % 2 == 0]`
+
+List comprehensions are often more readable and concise than traditional loops for creating lists, making your code more expressive and compact.
+
+### 2.4.2 例子
+
+```python
+squares = []
+for x in range(10):
+    squares.append(x**2)
+squares = [x**2 for x in range(10)]
+
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+    # [(1,3),(1,4),(2,3),(2,1),(2,4),(3,1),(3,4)]
+[[el for row in matrix] for el in row]
+    # [[1,5,9],[2,6,10],[3,7,11],[4,8,12]]
+
+```
+
+```python
+List comprehension:
+l=[x*x for x in range(10) if x%2==0]
+
+Generator expression:
+g=(x*x for x in range(10) if x%2==0)
+
+• Called:
+next(g) # or
+for i in g:
+```
+
+Rule of thumb:
+• Use a list comprehension when a computed list is the desired end result.
+• Use a generator expression when the computed list is just an intermediate step.
+
+
+
+
+# 3 总结
+
+- 迭代器，对可迭代对象中的元素进行逐一获取，迭代器对象的内部都有一个 __next__方法，用于以一个个获取数据。
+- 可迭代对象，可以被for循环且此类对象中都有 __iter__方法且要返回一个迭代器（生成器）。
+- 生成器，函数内部有yield则就是生成器函数，调用函数则返回一个生成器，循环生成器时，则函数内部代码才会执行。
+
+
+  特殊的迭代器（**）：
+  ```python
+  def func():
+      yield 1
+      yield 2
+      yield 3
+  
+  v = func()
+  result = v.__next__()
+  print(result)
+  result = v.__next__()
+  print(result)
+  result = v.__next__()
+  print(result)
+  result = v.__next__()
+  print(result)
+  ```
+
+  特殊的可迭代对象：
+  ```python
+  def func():
+      yield 1
+  
+  v = func()
+  result = v.__iter__()
+  print(result)
+  ```
+
+
