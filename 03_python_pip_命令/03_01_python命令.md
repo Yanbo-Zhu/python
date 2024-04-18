@@ -73,16 +73,6 @@ file
 run Python script from given file
 
 
-## 3.1 python -m
-
-rufen main function  (`If __name__== '__main__': ` 存在 )
-
-python kannweg24.py, 不报错 
-python -m kannweg24 , 不报错 
-写为 python -m kannweg24.py， 无法运行
-
-![](images/Pasted%20image%2020240415165406.png)
-
 # 4 Python2 和 Python3 使用哪个
 
 
