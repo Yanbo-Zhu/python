@@ -65,8 +65,26 @@ Ein Rechtsklick auf eine .py-Datei zeigt auch die Option "Run XYZ.py" an, was di
 
 ![](images/Pasted%20image%2020240326195540.png)
 
+# 4 Editor
 
-# 4 Display Language 
+
+## 4.1 autocompletion
+
+如何关闭 
+
+1 
+line completion 
+关闭 enable automatic compoletion on typing 这个选项
+![](images/Pasted%20image%2020240828165346.png)
+\
+
+2 
+code completion 
+关闭 show suggestions as you type 选项 
+
+![](images/Pasted%20image%2020240828170500.png)
+
+# 5 Display Language 
 
 IntelliJ 本身只支持 英语 显示 
 
