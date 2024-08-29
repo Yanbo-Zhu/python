@@ -17,8 +17,12 @@ Pycharm 这个 ide 是 32 bit 还是 64bit
 
 # 3 pycharm 配置 
 
+# 4 光标的宽度 
 
-## 3.1 Interpreters
+https://www.jetbrains.com/guide/go/tips/terminal-cursor-shape/
+![[04_IDE/images/Pasted image 20240625162636.png]]
+
+## 4.1 Interpreters
 
 
 0
@@ -65,10 +69,15 @@ Ein Rechtsklick auf eine .py-Datei zeigt auch die Option "Run XYZ.py" an, was di
 
 ![](images/Pasted%20image%2020240326195540.png)
 
-# 4 Editor
+# 5 Editor
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
-## 4.1 autocompletion
+## 5.1 autocompletion
 
 如何关闭 
 
@@ -84,7 +93,7 @@ code completion
 
 ![](images/Pasted%20image%2020240828170500.png)
 
-# 5 Display Language 
+# 11 Display Language 
 
 IntelliJ 本身只支持 英语 显示 
 
@@ -96,3 +105,11 @@ https://www.jetbrains.com/help/pycharm/proofreading.html
 并不可以 使得 IDE 汉化 
 
 ![](images/Pasted%20image%2020240326195701.png)
+
+
+# 12 pycharm中设置新的 terminal 
+
+![[04_IDE/images/Pasted image 20240625162148.png]]
+
+
+

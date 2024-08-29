@@ -42,13 +42,27 @@ packages
 
 ### 1.1.1 创建虚拟环境
 
-1 通过 pycharm 创建新的虚拟环境
+#### 1.1.1.1 通过 pycharm 创建新的虚拟环境
 https://blog.csdn.net/gaoqing_dream163/article/details/109219452
 
-2 通过 virtualenv  命令 创建 新的虚拟环境 
+#### 1.1.1.2 通过 virtualenv  命令 创建 新的虚拟环境 
 https://www.cnblogs.com/smilecindy/p/14012122.html
 
- 步骤三：虚拟环境安装好之后需要激活才能使用，激活环境需要在该环境的绝对路径（必须是Scripts目录）下激活，使用activate命令
+python使用virtualenv管理虚拟环境，便于在不同的环境下使用不同版本的包，不同项目使用不用版本的包，创建虚拟环境的步骤：
+ 步骤一：virtualenv的安装，安装命令：pip install virtualenv
+ 
+![[02_理论基础/images/Pasted image 20240625160434.png]]
+
+步骤二：使用virtualenv命令创建虚拟环境，创建命令：virtualenv 【环境名称】
+创建虚拟环境的目录可以任意选择，环境名称也可以任意定义：
+![[02_理论基础/images/Pasted image 20240625160508.png]]
+ 
+虚拟环境创建成功之后，则在选择的目录下生成虚拟环境，虚拟环境目录生成之后包含了Lib目录和Scripts目录以及.gitgnore和pyvenv.cfg文件，如下图：
+![[02_理论基础/images/Pasted image 20240625160523.png]]
+
+
+
+步骤三 虚拟环境安装好之后需要激活才能使用，激活环境需要在该环境的绝对路径（必须是Scripts目录）下激活，使用activate命令
  跳转到虚拟环境下的Scripts目录，使用activate命令进行激活
  ![](images/2114399-20201120172815925-901246087.png)
 
