@@ -74,6 +74,7 @@ Ein Rechtsklick auf eine .py-Datei zeigt auch die Option "Run XYZ.py" an, was di
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 ## 4.1 autocompletion
 
@@ -91,6 +92,10 @@ code completion
 
 ![](images/Pasted%20image%2020240828170500.png)
 
+||||||| Stash base
+# 4 Display Language 
+=======
+>>>>>>> Stashed changes
 ||||||| Stash base
 # 4 Display Language 
 =======
