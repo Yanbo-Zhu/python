@@ -69,14 +69,15 @@ Ein Rechtsklick auf eine .py-Datei zeigt auch die Option "Run XYZ.py" an, was di
 
 ![](images/Pasted%20image%2020240326195540.png)
 
-# 4 Editor
+# 5 Editor
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
-## 4.1 autocompletion
+## 5.1 autocompletion
 
 如何关闭 
 
@@ -92,23 +93,7 @@ code completion
 
 ![](images/Pasted%20image%2020240828170500.png)
 
-||||||| Stash base
-# 4 Display Language 
-=======
->>>>>>> Stashed changes
-||||||| Stash base
-# 4 Display Language 
-=======
->>>>>>> Stashed changes
-||||||| Stash base
-# 4 Display Language 
-=======
->>>>>>> Stashed changes
-||||||| Stash base
-# 4 Display Language 
-=======
->>>>>>> Stashed changes
-# 5 Display Language 
+# 11 Display Language 
 
 IntelliJ 本身只支持 英语 显示 
 
@@ -122,7 +107,7 @@ https://www.jetbrains.com/help/pycharm/proofreading.html
 ![](images/Pasted%20image%2020240326195701.png)
 
 
-# 6 pycharm中设置新的 terminal 
+# 12 pycharm中设置新的 terminal 
 
 ![[04_IDE/images/Pasted image 20240625162148.png]]
 
