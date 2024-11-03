@@ -1,12 +1,27 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
+
+
+
 # 1 字符串
 1.Python的字符串是一种不可变序列，它包含的字符存在从左到右的位置顺序。  
-不可变是指：字符串创建以后无法修改它的内容。
+string is immutable   不可变是指：字符串创建以后无法修改它的内容。
+
+```python
+msg = 'hello'
+msg[1], msg[::-1], 'hi' + 'lo', 'ya' * 3, len('house')
+('e', 'olleh', 'hilo', 'yayaya', 5)
+
+msg[2] = 'e'
+会报错
+TypeError: 'str' object does not support item assignment
+
+
+```
+
+
 > 序列包括：字符串、列表、元组
+
+
+
 
 * 字符串由一对双引号或者单引号包围，二者无任何区别
 > 如果希望字符串中包含引号，则有两种办法：
@@ -113,9 +128,10 @@ len("hello") 5 # size
 
 # 5 String format expression 
 
-10.字符串格式化表达式是基于C语言的printf格式化表达式。其格式为：
+## 5.1 基于C语言的printf格式化表达式
 
-	"%d %s apples" % (3,'bad')
+10.字符串格式化表达式是基于C语言的printf格式化表达式。其格式为：
+`"%d %s apples" % (3,'bad')`
 它返回一个新的字符串。
 
 * 占位符有多种：  
@@ -135,6 +151,24 @@ len("hello") 5 # size
 	* `type`为类型，如`d`,`r`,`f`,`e`等  
   	![字符串格式化表达式通用目标结构](../imgs/python_4_10.JPG)
 
+
+
+12.格式化单个值比较简单，可以有以下方法：
+* `"%s" % 1.23`
+* `"%s" % (1.23,)`，这里`(1.23,)`是一个单元素元组，
+  而`(1.23)`是一个表达式
+* `"{0}".format(1.23)`
+
+13.由于Python内部会暂存并重复使用短字符串来进行优化，因此该短字符串在内存中只有一份。  
+![字符串暂存优化](../imgs/python_4_14.JPG)
+
+14.浮点数格式化时，采用`%s`说明符与`%f`说明符，其结果不同：  
+![浮点数格式化](../imgs/python_4_15.JPG)
+
+因为按照`%f`格式化输出时，浮点数有精度和位宽的设定（虽然这里没有显式指定，但是它们有默认值）。而`%s`格式化输出时，首先调用了`str()`函数，然后再进行输出。
+
+
+## 5.2 `.format()`
 11.格式化字符串除了使用字符串格式化表达式之外，还可以通过字符串的`.format()`
   方法达到同样的效果。
 
@@ -178,35 +212,54 @@ len("hello") 5 # size
 	* 某些值可以从`.format()`的参数中获取，如`"{0:+0{1}d}".format(128,8)`，
 	  其指定精度信息从`format()`的参数中取(参数8)
 
-12.格式化单个值比较简单，可以有以下方法：
 
-* `"%s" % 1.23`
-* `"%s" % (1.23,)`，这里`(1.23,)`是一个单元素元组，
-  而`(1.23)`是一个表达式
-* `"{0}".format(1.23)`
-
-13.由于Python内部会暂存并重复使用短字符串来进行优化，因此该短字符串在内存中只有一份。  
-![字符串暂存优化](../imgs/python_4_14.JPG)
-
-14.浮点数格式化时，采用`%s`说明符与`%f`说明符，其结果不同：  
-![浮点数格式化](../imgs/python_4_15.JPG)
-
-因为按照`%f`格式化输出时，浮点数有精度和位宽的设定（虽然这里没有显式指定，但是它们有默认值）。而`%s`格式化输出时，首先调用了`str()`函数，然后再进行输出。
-
----
-
+```python
 print('Hello {}, you reached {} of {}
 points'.format('Thomas', 87, 100))
 
 print('Hello {fname:s}, you reached {yp:d} of {tp:7}
 points'.format(fname='Thomas',yp=87,tp=100))
 
----
+template = 'Today is {}, {}{} of {}'  
+print(template.format('Tuesday', 2 * 8 + 1, 'th', 'October'))  
+print(template.format('Monday', 2, 'nd', 'November'))  
+print('The weight of %d %s is approximately %.1f g' % (3, 'Apples', 85 * 3))
+```
 
+
+## 5.3 f-strings 
+
+```python
+day = 17
+suffix = 'th'
+day_of_week = 'Monday'
+month = 'October'
+
+f'Today is {day_of_week} {day}{suffix} of {month}'
 
 name = 'Jack'
 age = 11
 f'{name} is {age} years old.'
+
+f'Result: {3 ** 0.5:0.3f}' # operation inside + 3 digits after the floating point
+f'Value:{15:05d}', f'Value:{15:5d}' # 5 digits long output filled with zeros/empty string
+
+```
+
+```python
+# second string  
+a = "irony"  
+b = "anyone"  
+c = "room"  
+  
+string2 = f"The {a} of the situation wasn't lost on {b} in the {c}."  
+  
+# third string  
+string3 = f"{7*10} * {9/3} with three digits after the floating point looks like this: {70*3 :.3f}."
+```
+
+
+
 
 # 6 String Method
 
@@ -221,6 +274,8 @@ s.strip().startswith('Tho')
 s.center(100)
 s.ljust(100, '*')
 `s.isalpha()`
+`' and '.join(['Huey', 'Dewey', 'Louie'])  # joining a list of strings using a delimiter`
+
 
 
 # 7 print and input 

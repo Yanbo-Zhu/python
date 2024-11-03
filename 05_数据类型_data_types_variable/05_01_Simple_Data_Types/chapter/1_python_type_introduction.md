@@ -1,5 +1,56 @@
 
-# 1 Python 的动态类型介绍
+# 1 Type 
+
+  
+* the numeric types are `int`, `float` and `complex`; `bool` is a subtype of `int`  
+* we can use the `type` built-in to get the type of any item, e.g. literals:
+
+```
+type(4), type(2.4), type(3.3j), type(True)\
+(int, float, complex, bool)
+
+type(2 + 3), type(4 / 3), type(4**0.5j), type(3**2), type(5.4 % 3), type(not 1.3)
+(int, float, complex, int, float, bool)
+
+type([1, 'x', 3.3, True]), type((1, True, 'hi')), type(range(5)), type('wow')
+(list, tuple, range, str)
+
+
+```
+
+Simple Types
+– Boolean
+• True, False, abs(x), 0<x<=5
+– Numbers
+• Int
+• Float
+– Strings
+– None
+
+# 2 Type Conversion 
+
+```python
+int("45"), bool(0), bool(23), int(4 / 3), float(2 + 2), float('42')
+(45, False, True, 1, 4.0, 42.0)
+
+int(1.99), round(1.59), bool(""), bool(" "), bool([]), bool([1])
+(1, 2, False, True, False, True)
+
+
+a = (1, 2, 3)
+type(a), type(list(a))
+(tuple, list)
+
+
+type(a), str(a), type(str(a))
+(tuple, '(1, 2, 3)', str)
+
+
+
+
+```
+
+# 3 Python 的动态类型介绍
 
 1.在Python中没有变量的声明以及变量的类型：
 
@@ -86,14 +137,5 @@ style id2 fill:#ccf,stroke:#f66,stroke-width:2px,stroke-dasharray: 5, 5;
 15.Python可以在旧版本中开启新版本的特性，只需用在模块文件中使用：
   `from __future__ import 特性名`
 
-# 2 Type 
 
-Simple Types
-– Boolean
-• True, False, abs(x), 0<x<=5
-– Numbers
-• Int
-• Float
-– Strings
-– None
 

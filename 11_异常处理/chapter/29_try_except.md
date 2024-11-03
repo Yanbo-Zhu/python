@@ -9,7 +9,9 @@
     – Uncaught exceptions terminate the program
     – Statement try/except may catch exceptions
 
-#### 1.1.1.1 基本格式
+# 2 基本格式
+
+## 2.1 try..except
 
 ```python
 try:
@@ -17,6 +19,20 @@ try:
 except Exception as e:
     pass
 ```
+
+
+```python
+try:  
+    value = 1. / 0.  
+    print('You will never see this message!')  
+except ZeroDivisionError as error:  
+    # e.g., we know that we approach zero from the positive side  
+    value = float('inf')  
+print(value)
+```
+
+---
+
 
 ```python
 try:
@@ -29,6 +45,9 @@ except IndexError as e:
 except Exception as e:
     print(e) # e是Exception类的对象，中有一个错误信息。
 ```
+
+
+## 2.2 try..except..finally
 
 ```python
 try:
@@ -53,7 +72,26 @@ def func():
 func()
 ```
 
-#### 1.1.1.2 主动触发异常
+## 2.3 try..except..else
+
+ Doing things when there was no error
+
+- `try` also supports an `else`, which is executed when there was **no** exception  
+- for instance, we can add only prin
+
+```python
+for divisor in [3, 0, 2, 1]:  
+    try:  
+        value = 1. / divisor  
+    except ZeroDivisionError:  
+        print(float('inf'))  
+    else:  
+        print(value)
+```
+
+
+
+## 2.4 主动触发异常 raise 
 
 ```python
 try:
@@ -62,6 +100,16 @@ try:
 except Exception as e:
     print(e)
 ```
+
+```python
+def divide(a, b):  
+    if b == 0:  
+        raise ZeroDivisionError("Division by zero is undefined.")  
+    return a / b  
+  
+divide(1, 0)
+```
+
 
 ```python
 def func():
@@ -76,7 +124,7 @@ def func():
     return result
 ```
 
-#### 1.1.1.3 自定义异常
+# 3 自定义异常
 
 ```python
 class MyException(Exception):
@@ -100,7 +148,36 @@ except MyException as e:
     print(e.message)
 ```
 
-### 1.1.2 约束和反射
+---
+
+```python
+class NegativeAmountError(Exception):  
+    """Custom exception for negative transaction amounts."""  
+  
+    def __init__(self, amount):  
+        self.amount = amount  
+        self.message = f"Transaction amount {amount} is not positive."        super().__init__(self.message)  
+  
+  
+def process_transaction(amount):  
+    """Process a transaction, raising NegativeAmountError if amount is not positive."""  
+    if amount <= 0:  
+        raise NegativeAmountError(amount)  
+    # Process transaction logic goes here  
+    print(f"Transaction of amount '{amount}' processed successfully.")
+```
+
+
+```python
+try:  
+    process_transaction(-100)  # Attempting to process a transaction with a negative amount  
+except NegativeAmountError as error:  
+    print("Error:", error.message)  
+    raise ValueError('Bad input value to process_transaction') from error
+```
+
+
+# 4 约束和反射
 
 - #### 约束（抽象类/接口类）
 
@@ -327,7 +404,7 @@ print(os.path.isfile('D:\code\day24\pack'))
 
 
 
-# 2 `try_except_模块`
+# 5 `try_except_模块` 总体描述 
 1.Python中，异常会根据错误自动地被触发，也能由代码主动触发和截获
 
 2.捕捉异常的代码：
@@ -423,21 +500,6 @@ finally: # 一定会执行这个子句
 
   ![raise与raise e](../imgs/python_29_7.JPG)
 
-7.`assert`语句可能会引起`AssertionError`。其用法为：`assert <test>,<data>`。这等价于：
-
-```
-if __debug__:
-	if not <test>:	
-	raise AssertionError(<data>)
-```
-
-* `<test>`表达式用于计算真假，`<data>`表达式用于作为异常的参数。若`<test>`计算为假，则抛出`AssertionError`
-* 若执行时用命令行 `-0`标志位，则关闭`assert`功能（默认是打开的）。
-	> `__debug__`是内置变量名。当有`-0`标志位时，它为0；否则为1
-* 通常`assert`用于给定约束条件，而不是用于捕捉程序的错误。  
-
-  ![assert](../imgs/python_29_8.JPG)
-
 8.Python3中有一种新的异常相关语句：`with/as`语句。它是作为`try/finally`的替代方案。用法为：
 
 ```
@@ -464,7 +526,7 @@ with expression [as var]:
   ![多个with](../imgs/python_29_10.JPG)
 
 
-# 3 例子
+# 6 例子
 
 
 ```python

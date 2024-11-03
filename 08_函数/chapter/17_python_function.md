@@ -1,4 +1,6 @@
 
+
+
 # 1 总览
 1.Python的函数是由`def`语句编写。Python中，函数也是一种对象类型
 
@@ -15,7 +17,7 @@
 
 3.Python函数定义语句：
 
-```
+```python
 def func_name(arg1,arg2):
     statement
 
@@ -27,7 +29,19 @@ def function_a(parameter_1, parameter_2):
     return True
     return False
 
+
+def func(x, y, coeff=1):  
+    z = (x ** 2 + y ** 2) ** 0.5   
+z *= coeff  
+    return z, z ** 2  # multipe outputs possible (returned type is a tuple)
+
 ```
+
+call function
+```
+func(y=4, coeff=2, x=3)
+```
+
 
 
 ==• functions are objects==
@@ -61,7 +75,29 @@ def function_a(parameter_1, parameter_2):
 • Can force arguments to be global with global command
 
 
-# 4 全局变量必须大写
+# 4 Fucntion docstrings
+
+```python
+def add_c(first, second):  
+    """ Adds two complex numbers  
+                Args:   
+            first (tuple)  : the first complex number  
+            second (tuple) : the second complex number                Returns:  
+            complex : sum of the two complex numbers    """    assert type(first) == tuple, 'not a tuple'  
+    assert type(second) == tuple, 'not a tuple'  
+    re = first[0] + second[0]  
+    im = first[1] + second[1]  
+      
+    return complex(re, im)  
+  
+add_c((2,3), (2,-1))
+
+
+
+```
+
+
+# 5 全局变量必须大写
 
 
 ```python
@@ -76,7 +112,7 @@ print(USER_LIST)
 
 
 
-# 5 可变参数
+# 6 可变参数
 
 
 ```
@@ -97,7 +133,7 @@ def generic_function(*arg, **kwarg):
 ```
 
 
-# 6 函数可做返回值
+# 7 函数可做返回值
 
 ```python
 def func():
@@ -223,7 +259,7 @@ info[4]()
 ```
 
 
-## 6.1 返回值
+## 7.1 返回值
 
 返回值若不指定，则默认返回：None
 

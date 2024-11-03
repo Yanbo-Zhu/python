@@ -1,14 +1,18 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
-# 1 异常对象
+
+
 1.Python3中，内置异常与用户自定义异常都是类的实例对象
 
 2.在`try...except`语句进行`except ExceptionType`子句匹配时，采用的是`isinstance(exception_obj,ExceptionType)`这种匹配规则。因此如果`ExceptionType`是`exception_obj`所属类的超类，则匹配也成功。
 
-3.Python中的内置异常类继承树：
+
+# 1 常见的error type 
+
+https://docs.python.org/3/library/exceptions.html
+
+
+![](images/Pasted%20image%2020241103081519.png)
+
+# 2 Python中的内置异常类继承树：
 
 ~~~mermaid
 graph BT
@@ -27,8 +31,9 @@ id3-->|继承|id5(BaseException)
 
   ![BaseException](../imgs/python_30_1.JPG)
 
-4.自定义异常类：通常继承自`Exception`类
+# 3 其他
 
+4 自定义异常类：通常继承自`Exception`类
 * 若想自定义打印显示，则必须重写`.__str__(self)`方法
 * 如果想定制初始化方法，必须重写`.__init__(self,args)`方法。此时超类的`.args`属性同样也会起作用  
 
