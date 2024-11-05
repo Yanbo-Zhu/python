@@ -2,7 +2,7 @@
 打开了jupyter的网页，在关闭jupyter的网页后如何在ubuntu终端退出jupyter notebook重新进入命令输入行呢？
 同时按下ctrl和C键
 
-快捷键
+# 1 快捷键
 执行当前cell，并自动跳到下一个cell：Shift Enter
 执行当前cell，执行后不自动调转到下一个cell：Ctrl-Enter
 是当前的cell进入编辑模式：Enter
