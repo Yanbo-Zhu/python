@@ -1,4 +1,14 @@
 
+Recap:  
+- dunder = double underscores  
+- Alternative name: magic methods  
+- Dunder methods are syntactic sugar (compact/elegant syntax)
+
+就是 `__init__` 或者 等 class 的 attribute 叫做 dunder method 
+
+```
+
+
 # 1 运算符
 
 1.运算符重载只是意味着在类方法中拦截内置的操作
@@ -19,6 +29,8 @@
 
 start and end with double underscores, e.g.
 ```
+
+```
 – __init__ __del__ # init/final.
 – __repr__ __str__ __int__ # conversions
 – __lt__ __gt__ __eq__ ... # comparisons
@@ -29,8 +41,7 @@ start and end with double underscores, e.g.
 – __len__ __iter__ __contains__
 
 ```
-
-# 2 分类
+# 1 分类
 
 
 - Python classes can define special behaviors using double underscore (double-under -> dunder) methods  
@@ -70,7 +81,7 @@ print(len(batch))
 print(batch[0])
 ```
 
-## 2.1 `__ init __`初始化方法
+## 1.1 `__ init __`初始化方法
 
 ```python
 class Foo:
@@ -93,7 +104,7 @@ obj = Foo('alex')
   ![运算符重载](../imgs/python_26_3.JPG)
 
 
-## 2.2 `__ new __ 构造方法`
+## 1.2 `__ new __ 构造方法`
 
 ' __ new__ '方法创建实例，并在init之前工作。
 
@@ -116,7 +127,7 @@ class Foo(object):
 obj = Foo()
 ```
 
-## 2.3 `__ call __` 
+## 1.3 `__ call __` 
 
 ```python
 class Foo(object):
@@ -157,7 +168,7 @@ server.serve_forever()
   ![重载函数调用.__call__方法](../imgs/python_26_17.JPG)
 
 
-## 2.4 比较运算符
+## 1.4 比较运算符
 
 
 20.实例对象可以拦截6种比较运算符：`< > <= >= == !=`，对应于
@@ -178,7 +189,7 @@ server.serve_forever()
   ![重载比较运算符](../imgs/python_26_18.JPG)
 
 
-## 2.5 `__ getitem__  __ setitem __   __ delitem __ `
+## 1.5 `__ getitem__  __ setitem __   __ delitem __ `
 
 ```python
 class Foo(object):
@@ -216,7 +227,7 @@ del obj1['ttt']  # 内部会自动调用 __delitem__ 方法
   
   ![.__getitem__用于迭代](../imgs/python_26_6.JPG)
 
-## 2.6 `__ str__`打印
+## 1.6 `__ str__`打印
 
 ```python
 class Foo(object):
@@ -245,13 +256,13 @@ for item in user_list:
 
 
 
-## 2.7 `__index__(self)`
+## 1.7 `__index__(self)`
 
 
 `.__index__(self)`方法：该方法将实例对象转换为整数值。即当要求整数值的地方出现了实例对象时自行调用。  
   
   ![重载对象转整数](../imgs/python_26_5.JPG)
-## 2.8 `__ dict __`
+## 1.8 `__ dict __`
 
 ```python
 class Foo(object):
@@ -285,7 +296,7 @@ print(val)
  通过键索引时必须给出属性名字符串；通过点运算符时给出的是属性名（不是字符串）
 
 
-## 2.9 迭代
+## 1.9 迭代
 
 
 
@@ -312,7 +323,7 @@ print(val)
   
   ![in 运算符的实现原理](../imgs/python_26_9.JPG)
 
-## 2.10 `.__getattr__(self,'name')` and `.__setattr__(self,'name',value)`
+## 1.10 `.__getattr__(self,'name')` and `.__setattr__(self,'name',value)`
 
 
 
@@ -356,7 +367,7 @@ print(val)
 > 对于通过`obj.__dict__['name']`访问，可以绕过这种机制
 
 
-## 2.11 `.__repr__(self)`和`.__str__(self)`方法
+## 1.11 `.__repr__(self)`和`.__str__(self)`方法
 
 
 16.`.__repr__(self)`和`.__str__(self)`方法：当实例对象在打印或者转成字符串时调用
@@ -368,7 +379,7 @@ print(val)
  
   ![重载.__repr__方法和.__str__方法](../imgs/python_26_14.JPG)
 
-## 2.12 `.__add__(self,value)`##
+## 1.12 `.__add__(self,value)`##
 
 
 
@@ -395,7 +406,7 @@ print(val)
 * 右侧方法通常只有在需要满足交换律时用得到，一般较少使用
 * 在实现这些方法时，函数体内注意不要出现递归调用
 
-## 2.13 `.__bool__(self)`
+## 1.13 `.__bool__(self)`
 
 
 21.在布尔环境中，Python会首先尝试`.__bool__(self)`方法来获取一个直接的布尔值。如果没有这个方法，则 尝试`.__len__(self)`方法根据其结果确定实例对象的真值（非0则为真，0为假）
@@ -403,7 +414,7 @@ print(val)
   ![重载.__bool__方法](../imgs/python_26_19.JPG)
 
 
-## 2.14 `.__del__(self)`
+## 1.14 `.__del__(self)`
 
 
 • is called when an object is garbage collected == after all references to the object have been deleted
@@ -418,7 +429,7 @@ print(val)
 >* 用户无法预测实例对象的具体回收时机，这个时机有Python自动调度
 
   ![重载.__del__方法](../imgs/python_26_20.JPG)
-## 2.15 上下文管理【面试题】
+## 1.15 上下文管理【面试题】
 
 ```python
 class Foo(object):
