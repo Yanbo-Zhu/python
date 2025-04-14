@@ -29,14 +29,52 @@ https://blog.csdn.net/gaoqing_dream163/article/details/109219452
 ## 1.1 使用方法
 
 ```
-pip install virtualenv
-virtualenv ve1
-cd ve1
-Scripts/activate.bat
+# Open a terminal and check whether you have `pip` and `venv` available
 
-deactivate
-virtualenv --python=C:\Python38\python.exe --nosite-
-packages
+python3 -m pip --version  
+python3 -m venv --help
+
+# Create a virtual enviroment to install new Python packages 
+# 方法1 使用 virtualenv 命令 (不推荐 )
+pip install virtualenv
+virtualenv venv
+virtualenv --python=C:\Python38\python.exe --nosite-packages
+
+
+# 方法2  使用 python3 -m venv  (这个方法常用)
+创造一个名为venv 的虚拟环境: python3 -m venv venv
+```
+
+
+然后 在 venv/scripts/ 中文件加下 会有  一系列的文件 
+不同的 activate 文件可以在不同的 OS 中 去使用 以此来启动虚拟环境 
+
+- activate 
+- activate.bat 
+- active.ps1  
+- deactivate.bat 
+- jupyter.exe 
+- pip.exe 
+- pip3.exe 
+- python.exe
+
+
+
+```
+
+# Activate the enviroment by typing:
+cd ve1
+Scripts/activate.bat  ()
+
+# activate the enviromrnt by typing
+source venv/bin/activate  (只能在sh 中使用 )
+source venv/Scripts/activate
+
+在powershell 中使用 
+. venv/Scripts/activate.ps1
+
+# deactivate 某个 environment 
+执行 venv/Scripts/deactivate 这个文件
 
 ```
 
@@ -53,7 +91,14 @@ python使用virtualenv管理虚拟环境，便于在不同的环境下使用不�
  
 ![[02_理论基础/images/Pasted image 20240625160434.png]]
 
-步骤二：使用virtualenv命令创建虚拟环境，创建命令：virtualenv 【环境名称】
+步骤二：使用virtualenv命令创建虚拟环境，
+
+方法0 (推荐 )
+使用 python3 -m venv  (这个方法常用)
+创造一个名为venv 的虚拟环境: python3 -m venv venv
+
+
+方法1 创建命令：virtualenv 【环境名称】
 创建虚拟环境的目录可以任意选择，环境名称也可以任意定义：
 ![[02_理论基础/images/Pasted image 20240625160508.png]]
  
@@ -63,8 +108,12 @@ python使用virtualenv管理虚拟环境，便于在不同的环境下使用不�
 
 
 步骤三 虚拟环境安装好之后需要激活才能使用，激活环境需要在该环境的绝对路径（必须是Scripts目录）下激活，使用activate命令
+
  跳转到虚拟环境下的Scripts目录，使用activate命令进行激活
  ![](images/2114399-20201120172815925-901246087.png)
+
+
+
 
 ### 1.1.2 项目在虚拟环境中的使用
 

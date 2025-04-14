@@ -1,9 +1,99 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
-# 1 作用域
+
+
+1 
+`globals()`
+print 出所有的 globals 的variable 
+
+2 
+For-loops leak their variables
+```
+def check_for_leak():
+    i = 40
+    for i in range(25):
+        pass
+    print(i)
+check_for_leak() 
+
+输出为 24 
+```
+
+# 1 Inplace operations on global variables
+
+
+
+会报错, 会引用不了在global variable 
+```python
+from traceback import print_exception
+
+temperature = 21
+
+def heat_up():
+    temperature += 1
+
+try:
+    heat_up()
+except UnboundLocalError as error:
+    print_exception(error)
+```
+
+
+
+
+to make inplace operations possible, we can explicitly indicate that we refere to a **global** variable
+```python
+from traceback import print_exception
+
+temperature = 21
+
+def heat_up():
+    global temperature  # 如果不加这个 global , 就引用不了 之前 定义的 temperature = 21
+    temperature += 1
+    print(locals()) # will remain empty
+
+heat_up()
+print(f'{temperature}°C?! Is it getting hot in here?')
+```
+
+
+
+# 2 Local operations on non-local variables
+
+- variables local to a higher block are subject to the same limitations
+    - 会报错, 会引用不了 在同一个 functiion 中 不同 scope 的 variable 
+```python
+def simulate_temperature():  
+    temperature = 21  
+  
+    def local_heat_up():  
+        temperature += 1  
+  
+    try:  
+        local_heat_up()  
+    except UnboundLocalError as error:  
+        print_exception(error)  
+  
+simulate_temperature()
+```
+
+
+- we can indicate that we refer to a variable that is not local to the current block by using `nonlocal`
+    - 这样就能引用了
+```python
+def simulate_temperature():
+    temperature = 21
+
+    def local_heat_up():
+        nonlocal temperature
+        temperature += 1
+
+    local_heat_up()
+    print(f'{temperature}°C?! Is it getting hot in here?')
+
+simulate_temperature()
+print(f'Outside is still {temperature}°C!')
+```
+
+# 3 作用域
 1.代码中变量名被赋值的位置决定了这个变量名的作用域（即可见范围）。因为变量是在首次赋值的时候定义的。
 
 * Python将一个变量名首次被赋值的地点关联为一个特定的命名空间

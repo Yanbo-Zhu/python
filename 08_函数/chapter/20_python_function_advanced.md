@@ -1,154 +1,134 @@
-<!--
-    作者：华校专
-    email: huaxz1986@163.com
-**  本文档可用于个人学习目的，不得用于商业目的  **
--->
-# 1 函数的高级特性
-1.在Python中，函数的递归通常比`for`循环要慢而且空间消耗大，但是递归的优点是可以遍历任意形状的结构。
 
-2.Python函数是对象，自身存储在内存块中，它可以自由地传递与引用。
-
-* 函数对象支持一个特殊操作：有括号`()`以及参数列表执行调用行为
-* 我们可以通用地检查函数对象的某些属性：如`.__name__`属性、`.__code__`属性
-* 可以向函数对象附加任意的用户自定义属性，如`func.count=0`。这样的属性可以用来直接将状态信息附加到函数对象上
-* Python3中，可以给函数对象附加注解。注解不作任何事情，而且注解是可选的，它被附加在函数对象的`.__annotaions__`属性中。注解的格式为：
-
-  ```
-  def func(a:'a',b:(1,10),c:float) -> int:
-	return a+b+c  
-  ```
-	* 注解分两种：参数注解紧随形参名字的冒号`:`之后；返回值注解紧随参数列表的`->`之后
-	* 当出现注解时，Python将它们收集到字典中并附加到`.__annotations__`属性中
-	* 注解可以与默认值同时出现，此时形参形式为`c:float=4.0`
-	* 注解只有在`def`中有效，在`lambda`表达式中无效
-	
-  ![函数对象](../imgs/python_20_1.JPG)
-
-
-
-6.Python是静态检测局部变量的：
-
-  ```
-  x='global'
-  def func():
-	print(x)
-	x=3
-  ```
-编译时，Python看到了赋值语句`x=3`，因此决定了在函数内的任何地方，`x`都是本地变量。但是`print(x)`时赋值语句并未发生，此时即使全局中有全局的`x`，也会报错。
-
-* 任何在函数体内的赋值、`import`，嵌套`def`，嵌套类等都受这种行为影响
-  >即只要有局部变量的定义，无论在函数内哪个地方，其作用域都是本局部作用域全域
-
-  ![局部作用域的全域效果](../imgs/python_20_3.JPG)
-
-7.Python在内部会将每个默认实参保存成对应的对象，附加在这个函数本身。在不同的函数调用期间，这些默认实参会保存同一个对象。因此对于可变对象作为默认实参注意保持警惕。  
- ![可变的默认实参](../imgs/python_20_4.JPG)
-
-
-# 2 Lambda
-
-• Small, anonymous functions
-• Restricted to a single expression
-
-3.匿名函数：`lambda`表达式  
-`lambda`表达式创建了一个函数对象，它返回该函数对象而不是将其赋值给一个变量名。  
-创建`lambda`表达式的语法为：
-
-```
-	lambda arg1,arg2,...argN: expression using args
-```
-* `lambda`表达式是个表达式而不是语句，它能出现在不允许`def`出现的某些地方，比如参数中
-* `lambda`表达式返回一个值（一个新的函数对象），可以将它手动赋值给一个变量名
-  >`def`总是将一个新的函数对象自动赋值给一个变量名（函数名）
-
-* `lambda`的主体是一个单一的表达式，而不是一个代码块。因此`lambda`通常比`def`功能简单
-  >`lambda`内部甚至不能使用`if`语句
-* `lambda`主体中表达式的值就是调用时的返回值，不需要显式`return`
-* `lambda`表达式也能使用默认实参
-* `lambda`表达式主体中遵循`def`内一样的名字作用域查找法则  
-  ![lambda表达式](../imgs/python_20_2.JPG)
-
-4.出于可读性要求，最好不要嵌套使用`lambda`表达式
-5.`lambda`表达式应用于`map()`、`filter()`、`reduce()`等函数中较多
+# 1 Functions as First-Class Objects  
+  
+- in Python, functions are objects that can be:  
+- passed as arguments  
+- returned from other functions   
+- assigned to variables  
+- stored in data structures
 
 
 ```python
-#三元运算，为了解决简单的if else的情况，如：
-if a == b:
-    a = 135
-else:
-    a = 0
-a 135 if a ==b else 0
-# lambda表达式，为了解决简单函数情况，如：
-def func(a1,a2):
-    return a1 + 100
-func = lambda a1,a2: a1+100
+def apply_twice(func, value):  
+    """Apply a function twice to a value."""  
+    return func(func(value))  
+  
+def add_one(x):  
+    return x + 1  
+  
+result = apply_twice(add_one, 10)  
+print(f"After applying add_one twice to 10: {result}")
 ```
+
+# 2 Closures
+
+- when defining a function in another function, the inner function can access the outer functions variables
 
 ```python
-func1 = lambda : 100
-func2 = lambda x1: x1*10
-func3 = lambda *args,**kwargs: len(args)+len(kwargs)
-DATA = 100
-func4 = lambda a1: a1 +DATA
-v = func4(1)
-print(v)
-DATA = 100
-def func():
-    DATA = 666
-    func4 = lambda a1: a1 +DATA
-    v = func4(1)
-    print(v)
-func()
-func5 = lambda n1,n2: n1 if n1 > n2 else n2
-v = func(111,6)
-print(v)
+def make_greeter(greeting):
+    """Creates a function that greets with a specific greeting"""
+    def greet(name):
+        return f"{greeting}, {name}!"
+    return greet
+
+# Create different greeting functions
+say_hello = make_greeter("Hello")
+say_aloha = make_greeter("Aloha")
+
+print(say_hello("Alice"))  # "Hello, Alice!"
+print(say_aloha("Bob"))    # "Aloha, Bob!"
 ```
 
-练习题
+we can even modify the outer function's variables:
 
 ```python
-#练习题1
-USER_LIST = []
-def func(x):
-    v = USER_LIST.append(x)
-    return v  #None
-result = func('alex')
-print(result)
-#练习题2
-def func0(x):
-    v = x.strip()
-    return v 
+def create_counter():  
+    count = 0  # This variable is "enclosed" in the closure  
+    def increment():  
+        nonlocal count  # Need nonlocal to modify enclosed variable  
+        count += 1  
+        return count  
+          
+    return increment  # Return the inner function  
+  
+counter = create_counter()  
+print(counter())  # 1  
+print(counter())  # 2  
+print(counter())  # 3  
+  
+# ATTENTION:  
+# While this is sometimes useful, it is also considered bad practice when following the functional programming paradigm.
+```
 
-result = func0(' alex ')
-print(result)  #alex
-#练习题3
-USER_LIST = []
-func1 = lambda x: USER_LIST.append(x)
+# 3 Decorators  
+  
+- decorators are functions that modify other functions (or classes)  
+- they can be applied using the special `@` syntax  
+- commonly used for:  
+  - logging  
+  - timing  
+  - input validation  
+  - access control
 
-v1 = func1('alex')
-print(v1) #None
-print(USER_LIST) #['alex']
-#练习题4
-func1 = lambda x: x.split('l')
+```python
+def log_calls(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with args={args}, kwargs={kwargs}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned {result}")
+        return result
+    return wrapper
 
-v1 = func1('alex')
-print(v1) #['a','ex']
-#练习题5
-func_list = [lambda x:x.strip(), lambda y:y+199,lambda x,y:x+y]
+@log_calls
+def multiply(a, b):
+    return a * b
 
-v1 = func_list[0]('alex ')
-print(v1) #alex
-
-v2 = func_list[1](100)
-print(v2) #299
-
-v3 = func_list[2](1,2)
-print(v3) #3
+print(multiply(3, 4))
 ```
 
 
-# 3 装饰器
+In Python, defining a function as `def wrapper(*args, **kwargs):` creates a function that can accept any number of positional (`*args`) and keyword (`**kwargs`) arguments. Here's what each part does:
+
+1. **`*args`**: This allows the function to accept any number of positional arguments. Inside the function, `args` is a tuple containing all the positional arguments passed.
+    
+2. **`**kwargs`**: This allows the function to accept any number of keyword arguments. Inside the function, `kwargs` is a dictionary containing all the keyword arguments passed.
+    
+
+A common use for this type of function is when writing **decorators**. The `wrapper` function can take the same arguments as the original function it wraps, allowing it to process arguments before passing them to the original function.
+
+Here’s an example of a simple decorator using `wrapper`:
+```python
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before the function call")
+        result = func(*args, **kwargs)   # 这句话 就是执行 say_hello 的 
+        print("After the function call")
+        return result
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    print(f"Hello, {name}!")
+
+say_hello("Alice")
+
+```
+
+
+Explanation:
+- `wrapper` receives `name` as an argument through `*args`.
+- It executes some code before and after calling `say_hello`, adding behavior to the original function without modifying it directly.
+
+In this way, wrapper helps add functionality around a function call by handling a flexible set of arguments.
+```
+Before the function call
+Hello, Alice!
+After the function call
+
+```
+
+---
+中文
 
 - 装饰器：在不改变原函数内部代码的基础上，在函数执行之前和之后自动执行某个功能。（他们是修改其他函数的功能的函数。有助于让我们的代码更pythonic（python范儿））
 
@@ -162,7 +142,7 @@ def 外层函数（参数）:
     return 内层函数
 ```
 
-传参时候加*args，**kwargs由于每次传参时候参数格式不同，减少定义函数的繁琐。
+传参时候加`*args，**kwargs`由于每次传参时候参数格式不同，减少定义函数的繁琐。
 
 - 装饰器应用格式（@外层函数）：
 
@@ -284,7 +264,9 @@ def index():
     pass
 ```
 
-练习题
+
+
+## 3.1 练习题
 
 ```python
 # 写一个带参数的装饰器，实现：参数是多少，被装饰的函数就要执行多少次，把每次结果添加到列表中，最终返回列表。
@@ -370,6 +352,76 @@ def func10():
     pass
 ```
 
+
+# 4 partical function 
+
+- `partial` creates a new function with some arguments fixed  
+- equivalent to writing a closure, but much shorter  
+- equivalent to writing a lambda function but arguably more readable  
+- import from `functools` module
+
+
+```python
+from functools import partial
+
+def power(base, exponent):
+    return base ** exponent
+
+# Create specialized functions
+square = partial(power, exponent=2)
+cube = partial(power, exponent=3)
+
+# equivalent to
+square = lambda x: power(x, 2)
+cube = lambda x: power(x, 3)
+
+print(f"Square of 4: {square(4)}")
+print(f"Cube of 4: {cube(4)}")
+
+# 输出 
+Square of 4: 16
+Cube of 4: 64
+```
+# 5 函数的高级特性
+1.在Python中，函数的递归通常比`for`循环要慢而且空间消耗大，但是递归的优点是可以遍历任意形状的结构。
+
+2.Python函数是对象，自身存储在内存块中，它可以自由地传递与引用。
+
+* 函数对象支持一个特殊操作：有括号`()`以及参数列表执行调用行为
+* 我们可以通用地检查函数对象的某些属性：如`.__name__`属性、`.__code__`属性
+* 可以向函数对象附加任意的用户自定义属性，如`func.count=0`。这样的属性可以用来直接将状态信息附加到函数对象上
+* Python3中，可以给函数对象附加注解。注解不作任何事情，而且注解是可选的，它被附加在函数对象的`.__annotaions__`属性中。注解的格式为：
+
+  ```
+  def func(a:'a',b:(1,10),c:float) -> int:
+	return a+b+c  
+  ```
+	* 注解分两种：参数注解紧随形参名字的冒号`:`之后；返回值注解紧随参数列表的`->`之后
+	* 当出现注解时，Python将它们收集到字典中并附加到`.__annotations__`属性中
+	* 注解可以与默认值同时出现，此时形参形式为`c:float=4.0`
+	* 注解只有在`def`中有效，在`lambda`表达式中无效
+	
+  ![函数对象](../imgs/python_20_1.JPG)
+
+
+
+6.Python是静态检测局部变量的：
+
+  ```
+  x='global'
+  def func():
+	print(x)
+	x=3
+  ```
+编译时，Python看到了赋值语句`x=3`，因此决定了在函数内的任何地方，`x`都是本地变量。但是`print(x)`时赋值语句并未发生，此时即使全局中有全局的`x`，也会报错。
+
+* 任何在函数体内的赋值、`import`，嵌套`def`，嵌套类等都受这种行为影响
+  >即只要有局部变量的定义，无论在函数内哪个地方，其作用域都是本局部作用域全域
+
+  ![局部作用域的全域效果](../imgs/python_20_3.JPG)
+
+7.Python在内部会将每个默认实参保存成对应的对象，附加在这个函数本身。在不同的函数调用期间，这些默认实参会保存同一个对象。因此对于可变对象作为默认实参注意保持警惕。  
+ ![可变的默认实参](../imgs/python_20_4.JPG)
 
 
 

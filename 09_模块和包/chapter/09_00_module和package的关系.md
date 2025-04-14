@@ -5,12 +5,15 @@ https://stackoverflow.com/questions/46319694/what-does-it-mean-to-run-library-mo
 
 # 1 `if __name__ == '__main__': `
 
-在完成一个模块的编写之前，我们一般会对模块中的功能进行测试，看看各项功能是否正常运行。对于这些测试的代码，我们希望只在直接运行这个py文件的时候执行，在用其他的程序import这个模块的时候不要执行。这个时候就要借助Python内置的__name__变量。
+在完成一个模块的编写之前，我们一般会对模块中的功能进行测试，看看各项功能是否正常运行。对于这些测试的代码，==我们希望只在直接运行这个py文件的时候执行，在用其他的程序import这个模块的时候不要执行==。这个时候就要借助Python内置的__name__变量。
+
+Running a script will naturally run all code within the script, 包括 `if __name__ == '__main__'` 下的的会被执行 
+import 某个模块的时候, `if __name__ == '__main__'` 下的不会被执行
+
 
 `__name__`变量的取值是什么可以分两种情况，
-
-1. 当一个py文件被直接运行的时候，__name__变量的值为__main__。
-2. 当一个py文件被import到其他程序的时候，这个py文件里面的__name__变量的值为这个py文件的名字。
+1. 当一个py文件被直接运行的时候，`__name__变量的值为__main__`。
+2. 当一个py文件被import到其他程序的时候，这个py文件里面的__name__变量的值为这个py文件的名字。  , 所以 这个时候` __name__`变量的值 就不再是 `__main__` 了 `if __name__ == '__main__'  下面的代码就不再被执行了
 
 我们可以利用__name__变量的这个特点，结合一个if语句，让我们import某一个模块的时候只用到它提供的功能，而不要运行里面用来测试的代码：
 Der flogende Code wird nur ausgefuehrt, wenn das Skript selbst aufgerufen wird und the file nicht durch Modul importiert wird 
@@ -68,15 +71,43 @@ Print('d2:1') 被执行
 本质上是一个python程序, 以.py 作为文件的后缀, 任何py文件都可以作为一个模块 
 块，可以有效地避免命名空间的冲突，可以隐藏代码细节让我们专注于高层的逻辑，还可以将一个较大的程序分为多个文件，提升代码的可维护性和可重用性。 
 
+就是 vec_ops.py 中定义了好多 functions,  你想在其他的 python script 中  vec_ops.py 中定义的functions
+
+
 ## 3.1 导入
 
-导入一个模块一般有两种方法：
+```python 
+# 同级目录下有一个  vec_ops.py 中定义了好多 functions, 
+import vec_ops
+
+# 然后 使用 ec_ops.py 定义的functions, 
+vec_ops.inner_product(vector1, vector2)
 
 ```
 
-1. import 模块名1 [as 别名1], 模块名2 [as 别名2]，…。此时，模块名1本身被导入，但保存它原有的命名空间，所以我们需要用”模块名1.成员名1“方式访问其函数或变量。
+导入一个模块一般有两种方法：
 
-3. from 模块名 import 成员名1 [as 别名1]，成员名2 [as 别名2]，…。此时，会将该模块的函数/变量导入到当前模块的命名空间中，无须用“模块名1.成员名1"访问了。
+```python
+# 1. import 模块名1 [as 别名1], 模块名2 [as 别名2]，…。此时，模块名1本身被导入，但保存它原有的命名空间，所以我们需要用”模块名1.成员名1“方式访问其函数或变量。
+
+
+
+# 3. from 模块名 import 成员名1 [as 别名1]，成员名2 [as 别名2]，…。此时，会将该模块的函数/变量导入到当前模块的命名空间中，无须用“模块名1.成员名1"访问了。
+from vec_ops import inner_product, elementwise_add
+inner_product(vector1, vector2)
+
+
+# Importing all objects from a module
+from vec_ops import *   
+
+
+# 4 alias 
+import vec_ops as vector_operations
+from vec_ops import elementwise_add as eadd
+
+vector_operations.elementwise_add(vector1, vector2)
+eadd(vector1, vector2)
+
 
 ```
 
