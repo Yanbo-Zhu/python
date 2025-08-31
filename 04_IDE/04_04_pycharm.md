@@ -93,7 +93,7 @@ code completion
 
 ![](images/Pasted%20image%2020240828170500.png)
 
-# 11 Display Language 
+# 6 Display Language 
 
 IntelliJ 本身只支持 英语 显示 
 
@@ -107,9 +107,21 @@ https://www.jetbrains.com/help/pycharm/proofreading.html
 ![](images/Pasted%20image%2020240326195701.png)
 
 
-# 12 pycharm中设置新的 terminal 
+# 7 pycharm中设置新的 terminal 
 
 ![[04_IDE/images/Pasted image 20240625162148.png]]
+
+
+# 8 Remote Development 
+
+https://www.jetbrains.com/zh-cn/help/pycharm/remote-development-starting-page.html#run_in_wsl_ij
+IDE pzchram 下载到 远程服务器中的那里去 
+原本是/root/.cache/JetBrains/RemoteDev/dist
+改为了  /root/autodl-tmp/JetBrains/RemoteDev/dist
+
+需要预先手动创造 /root/autodl-tmp/JetBrains/RemoteDev/dist
+mkdir -p /root/autodl-tmp/JetBrains/RemoteDev/dist
+
 
 
 
